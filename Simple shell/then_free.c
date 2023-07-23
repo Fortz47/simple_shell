@@ -10,16 +10,23 @@
  */
 parse *then_free(int count, parse *_return, parse *ptr, ...)
 {
+	char *str;
+	char **str_arr;
 	va_list list;
 
 	va_start(list, ptr);
 
 	while (count)
 	{
-		free(va_arg(list, char **));
+		str = va_arg(list, char *);
+		free(str);
 		count--;
 	}
-	free(ptr);
+	str_arr = va_arg(list, char **);
+	if (str_arr)
+		free(str_arr);
+	if (ptr)
+		free(ptr);
 	va_end(list);
 	return (_return);
 }

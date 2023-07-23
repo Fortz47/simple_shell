@@ -30,25 +30,20 @@ void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s)
 			*s = exec_cmd(av, envp);
 			if (*s != 0)
 			{
-				_then_free(4, av, &pt, &fp, &av->cmd, av->args);
+				_then_free(3, av, pt, fp, av->cmd, av->args);
 				return;
 			}
 			break;
 		}
-		free(fp);
-		free(av->cmd);
-		free(av->args[0]);
+		_then_free(3, NULL, fp, av->cmd, av->args[0], NULL);
 		t = strtok(NULL, ":");
 		if (t != NULL)
 			fp = malloc(sizeof(char) * (_strlen(t) + _strlen(p->cmd) + 2));
 	}
 	if (flag && *s == 0)
 	{
-		free(fp);
-		free(av->cmd);
+		_then_free(2, NULL, fp, av->cmd, NULL);
 		free_arr_str(av->args, index, 0);
 	}
-	free(pt);
-	free(av->args);
-	free(av);
+	_then_free(1, av, pt, av->args);
 }

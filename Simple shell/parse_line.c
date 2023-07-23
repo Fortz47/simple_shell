@@ -21,19 +21,19 @@ parse *parse_line(char *line)
 	ptr->argc = ac;
 	ptr->cmd = _strdup(token);
 	if (!ptr->cmd)
-		return (then_free(0, NULL, ptr));
+		return (then_free(0, NULL, ptr, NULL));
 	ptr->args = malloc(sizeof(char *) * (ac + 1));
 	if (!ptr->args)
-		return (then_free(1, NULL, ptr, &ptr->cmd));
+		return (then_free(1, NULL, ptr, ptr->cmd, NULL));
 	ptr->args[0] = _strdup(token);
 	if (!ptr->args[0])
-		return (then_free(2, NULL, ptr, &ptr->cmd, ptr->args));
+		return (then_free(1, NULL, ptr, ptr->cmd, ptr->args));
 	for (i = 1; i < ac; i++)
 	{
 		token = strtok(NULL, " ");
 		ptr->args[i] = _strdup(token);
 		if (!ptr->args[i])
-			return (then_free(2, NULL, ptr, &ptr->cmd, ptr->args));
+			return (then_free(1, NULL, ptr, ptr->cmd, ptr->args));
 	}
 	ptr->args[i] = NULL;
 	return (ptr);
