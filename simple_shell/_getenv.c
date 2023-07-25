@@ -45,22 +45,25 @@ int find_var(const char *var, char *env_var)
 char **copy_env(char **env, int Add_byte)
 {
 	char **envCopy;
-	int i = 0, j;
+	int i = 0, j, k = 0;
 
 	while (env[i] != NULL)
 		i++;
 	envCopy = malloc(sizeof(char *) * (i + 1 + Add_byte));
 	if (!envCopy)
 		return (NULL);
-	for (j = 0; j < i; j++)
+	for (j = 0; k < i; j++)
 	{
-		envCopy[j] = _strdup(env[j]);
+		while (!env[j])
+			k++;
+		envCopy[j] = _strdup(env[k]);
 		if (!envCopy[j])
 		{
 			free_arr_str(envCopy, j, 0);
 			free(envCopy);
 			return (NULL);
 		}
+		k++;
 	}
 	envCopy[j] = NULL;
 	return (envCopy);
@@ -93,7 +96,7 @@ char *_getenv(const char *var, char **env_cpy)
  *
  * Return: void pointer
  */
-void *_setenv(parse *ptr, char **env_cpy)
+void _setenv(parse *ptr, char ***env_cpy)
 {
 	int i = 0, len;
 	char *var;
@@ -102,30 +105,72 @@ void *_setenv(parse *ptr, char **env_cpy)
 	if (ptr->argc != 3)
 	{
 		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", 29);
-		return (NULL);
+		return;
 	}
 	len = _strlen(ptr->args[1]) + _strlen(ptr->args[2]) + 2;
 	var = malloc(sizeof(char) * len);
 	if (!var)
 	{
 		perror("malloc");
-		return (NULL);
+		return;
 	}
 	_strcpy(var, ptr->args[1]);
 	_strcat(var, "=");
 	_strcat(var, ptr->args[2]);
+	while ((*env_cpy)[i] != NULL)
+	{
+		if (find_var(ptr->args[1], (*env_cpy)[i]))
+		{
+			free((*env_cpy)[i]);
+			(*env_cpy)[i] = var;
+			return;
+		}
+		i++;
+	}
+
+	New_env = copy_env((*env_cpy), 1);
+	if (!New_env)
+	{
+		free(var);
+		perror("malloc");
+	        return;
+	}
+	New_env[i] = var;
+	New_env[i + 1] = NULL;
+	free_arr_str_all(*env_cpy, 0, 0);
+	(*env_cpy) = New_env;
+}
+
+/**
+ */
+/*void *_unsetenv(parse *ptr, char **env_cpy)
+{
+	int i = 0, len;
+	char *var;
+	char **New_env;
+
+	if (ptr->argc != 2)
+	{
+		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 25);
+		return (env_cpy);
+	}
 	while (env_cpy[i] != NULL)
 	{
 		if (find_var(ptr->args[1], env_cpy[i]))
 		{
 			free(env_cpy[i]);
-			env_cpy[i] = var;
-			return (NULL);
+			env_cpy[i] = NULL;
+			New_env = copy_env(env_cpy, -1);
+			if (!New_env)
+			{
+				perror("malloc")
+				return (NULL);
+			}
+			return ();
 		}
 		i++;
 	}
-
-	New_env = copy_env(env_cpy, 1);
+	New_env = copy_env(env_cpy, -1);
 	if (!New_env)
 	{
 		free(var);
@@ -137,19 +182,4 @@ void *_setenv(parse *ptr, char **env_cpy)
 	free_arr_str_all(env_cpy, 0, 0);
 	env_cpy = New_env;
 	return (env_cpy);
-}
-
-/**
- */
-void *_unsetenv(parse *ptr, char **env_cpy)
-{
-	int i = 0, len;
-	char *var;
-	char **New_env;
-
-	if (ptr->argc != 2)
-	{
-		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 25);
-		return (NULL);
-	}
-}
+}*/

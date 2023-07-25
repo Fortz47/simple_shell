@@ -33,9 +33,8 @@ typedef struct parse
 typedef struct built_in
 {
 	char *cmd;
-	void *(*func)(parse *, char **);
+	void (*func)(parse *, char ***);
 } built_in;
-extern char **environ;
 
 int _strcmp(const char *s1, const char *s2);
 char *_strdup(char *str);
@@ -56,10 +55,10 @@ void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s, c
 void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
 ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 char *_getenv(const char *var, char **env_cpy);
-void *(*handle_built_in(char *cmd))(parse *ptr, char **env_cpy);
+void (*handle_built_in(char *cmd))(parse *ptr, char ***env_cpy);
 parse *create_struct_parse(int cmd_count, int args_count);
 char **copy_env(char **env, int Add_byte);
-void *_setenv(parse *ptr, char **env_cpy);
+void _setenv(parse *ptr, char ***env_cpy);
 void free_arr_str_all(char **arr, int i, int j);
 
 #endif

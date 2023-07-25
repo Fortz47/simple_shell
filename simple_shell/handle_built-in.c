@@ -2,7 +2,7 @@
 
 /**
  */
-void *(*handle_built_in(char *cmd))(parse *ptr, char **env_cpy)
+void (*handle_built_in(char *cmd))(parse *ptr, char ***env_cpy)
 {
 	int i;
 

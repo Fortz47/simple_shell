@@ -10,12 +10,11 @@
  */
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
-	parse *parsed;
+	parse *p;
 	char *buffer;
-	int i;
 	ssize_t read;
 	size_t len;
-	void *(*f)(parse *, char **);
+	void (*f)(parse *, char ***);
 	char **env_cpy = copy_env(env, 0);
 
 	while (TRUE)
@@ -27,23 +26,19 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		handle_EOF(&read, buffer, env_cpy);
 		if (!read)
 			continue;
-		parsed = parse_line(buffer);
-		if (parsed)
+		p = parse_line(buffer);
+		if (p)
 		{
-			f = handle_built_in(parsed->cmd);
+			f = handle_built_in(p->cmd);
 			if (f != NULL)
-				env_cpy = (char **)f(parsed, env_cpy);
-			else if (handle_path(parsed, env_cpy) != 0)
+				f(p, &env_cpy);
+			else if (handle_path(p, env_cpy) != 0)
 			{
-				if (exec_cmd(parsed, env_cpy) != 0)
+				if (exec_cmd(p, env_cpy) != 0)
 					perror(av[0]);
 			}
-			free(buffer);
-			free(parsed->cmd);
-			for (i = 0; parsed->args[i] != NULL; i++)
-				free(parsed->args[i]);
-			free(parsed->args);
-			free(parsed);
+			free_arr_str_all(p->args, 0, 0);
+			then_free(2, NULL, p, buffer, p->cmd, NULL);
 		}
 	}
 	return (0);
