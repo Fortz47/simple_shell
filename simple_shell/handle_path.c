@@ -3,6 +3,7 @@
 /**
  * handle_path - appends command input to PATH
  * @parsed: pointer to struct parse
+ * @env_cpy: environment
  *
  * Return: 0 if command exist on PATH or 1 if not
  */
@@ -39,7 +40,8 @@ int handle_path(parse *parsed, char **env_cpy)
 		return (status);
 	}
 	flag = FALSE;
-	then(filepath, token, parsed, argv, &flag, path, &status, env_cpy);
+	then(filepath, token, parsed, argv, &flag, &status, env_cpy);
+	free(path);
 	if (status != 0 && flag)
 		return (status);
 	return (status);

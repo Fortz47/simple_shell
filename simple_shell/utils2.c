@@ -19,3 +19,39 @@ void free_arr_str_all(char **arr, int i, int j)
 		free(arr[k]);
 	free(arr);
 }
+
+/**
+ * rm_env - removes a variable from environment
+ * @env: environment
+ * @index: index of variable to remove
+ *
+ * Return: pointer to new updated array copy or Null if failed
+ */
+char **rm_env(char **env, int index)
+{
+	char **envCopy;
+	int i = 0, j, k = 0;
+
+	while (env[i] != NULL)
+		i++;
+	envCopy = malloc(sizeof(char *) * i);
+	if (!envCopy)
+		return (NULL);
+	for (j = 0; k < i; j++)
+	{
+		if (j == index)
+			k++;
+		if (!env[k])
+			break;
+		envCopy[j] = _strdup(env[k]);
+		if (!envCopy[j])
+		{
+			free_arr_str(envCopy, j, 0);
+			free(envCopy);
+			return (NULL);
+		}
+		k++;
+	}
+	envCopy[j] = NULL;
+	return (envCopy);
+}

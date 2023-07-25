@@ -1,5 +1,7 @@
 #include "shell.h"
 
+char **rm_env(char **env, int index);
+
 /**
  * find_var - finds an environment variable
  * @var: variable
@@ -72,6 +74,7 @@ char **copy_env(char **env, int Add_byte)
 /**
  * _getenv - gets an environment variable
  * @var: environment variable
+ * @env_cpy: environment
  *
  * Return: environment variable or NULL if doesn't exist
  */
@@ -133,7 +136,7 @@ void _setenv(parse *ptr, char ***env_cpy)
 	{
 		free(var);
 		perror("malloc");
-	        return;
+		return;
 	}
 	New_env[i] = var;
 	New_env[i + 1] = NULL;
@@ -142,44 +145,34 @@ void _setenv(parse *ptr, char ***env_cpy)
 }
 
 /**
+ * _unsetenv - removes an environment variable
+ * @ptr: pointer to struct parse
+ * @env_cpy: environment
  */
-/*void *_unsetenv(parse *ptr, char **env_cpy)
+void _unsetenv(parse *ptr, char ***env_cpy)
 {
-	int i = 0, len;
-	char *var;
+	int i = 0;
 	char **New_env;
 
 	if (ptr->argc != 2)
 	{
 		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 25);
-		return (env_cpy);
+		return;
 	}
-	while (env_cpy[i] != NULL)
+	while ((*env_cpy)[i] != NULL)
 	{
-		if (find_var(ptr->args[1], env_cpy[i]))
+		if (find_var(ptr->args[1], (*env_cpy)[i]))
 		{
-			free(env_cpy[i]);
-			env_cpy[i] = NULL;
-			New_env = copy_env(env_cpy, -1);
+			New_env = rm_env((*env_cpy), i);
 			if (!New_env)
 			{
-				perror("malloc")
-				return (NULL);
+				perror("malloc");
+				return;
 			}
-			return ();
+			free_arr_str_all((*env_cpy), 0, 0);
+			(*env_cpy) = New_env;
+			return;
 		}
 		i++;
 	}
-	New_env = copy_env(env_cpy, -1);
-	if (!New_env)
-	{
-		free(var);
-		perror("malloc");
-	        return (NULL);
-	}
-	New_env[i] = var;
-	New_env[i + 1] = NULL;
-	free_arr_str_all(env_cpy, 0, 0);
-	env_cpy = New_env;
-	return (env_cpy);
-}*/
+}

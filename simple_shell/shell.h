@@ -51,7 +51,7 @@ int return_num_of_arg(char *buffer);
 parse *then_free(int count, parse *_return, parse *ptr, ...);
 void _then_free(int count, parse *ptr, ...);
 int _atoi(char *str);
-void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s, char **);
+void then(char *fp, char *t, parse *p, parse *av, int *flag, int *s, char **);
 void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
 ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 char *_getenv(const char *var, char **env_cpy);
@@ -60,5 +60,6 @@ parse *create_struct_parse(int cmd_count, int args_count);
 char **copy_env(char **env, int Add_byte);
 void _setenv(parse *ptr, char ***env_cpy);
 void free_arr_str_all(char **arr, int i, int j);
+void _unsetenv(parse *ptr, char ***env_cpy);
 
 #endif

@@ -19,7 +19,7 @@ parse *create_struct_parse(int cmd_count, int args_count)
 		return (then_free(0, NULL, ptr, NULL));
 	ptr->args = malloc(sizeof(char *) * (args_count + 1));
 	if (!ptr->args)
-		return(then_free(1, NULL, ptr, ptr->cmd, ptr->args));
+		return (then_free(1, NULL, ptr, ptr->cmd, ptr->args));
 	return (ptr);
 
 }

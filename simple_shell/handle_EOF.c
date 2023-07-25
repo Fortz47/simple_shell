@@ -1,9 +1,9 @@
 #include "shell.h"
-
 /**
  * handle_EOF - checks for EOF(ctrl + D) and/or "exit"
  * @read: number of characters read(from stdin)
  * @buffer: pointer to read input(from stdin)
+ * @env_cpy: environment
  */
 void handle_EOF(ssize_t *read, char *buffer, char **env_cpy)
 {
@@ -15,39 +15,34 @@ void handle_EOF(ssize_t *read, char *buffer, char **env_cpy)
 		if (feof(stdin))
 		{
 			free_arr_str_all(env_cpy, 0, 0);
-			env_cpy = NULL;
 			free(buffer);
 			write(STDIN_FILENO, "\nlogout\n", 8);
 			exit(EXIT_SUCCESS);
 		}
 	}
-	else
+	if (buffer[*read - 1] == '\n')
 	{
-		if (buffer[*read - 1] == '\n')
+		buffer[*read - 1] = '\0';
+		(*read)--;
+		if (*read == 0)
 		{
-			buffer[*read - 1] = '\0';
-			(*read)--;
-			if (*read == 0)
-			{
-				free(buffer);
-				return;
-			}
+		free(buffer);
+			return;
 		}
-		_strcpy(buf, buffer);
-		token = strtok(buf, " ");
-		if (_strcmp(token, "exit"))
+	}
+	_strcpy(buf, buffer);
+	token = strtok(buf, " ");
+	if (_strcmp(token, "exit"))
+	{
+		free_arr_str_all(env_cpy, 0, 0);
+		free(buffer);
+		token = strtok(NULL, " ");
+		if (token)
 		{
-			free_arr_str_all(env_cpy, 0, 0);
-			env_cpy = NULL;
-			free(buffer);
-			token = strtok(NULL, " ");
-			if (token)
-			{
-				status = _atoi(token);
-				write(STDIN_FILENO, "logout\n", 8);
-				exit(status);
-			}
-			exit(EXIT_SUCCESS);
+			status = _atoi(token);
+			write(STDIN_FILENO, "logout\n", 8);
+			exit(status);
 		}
+		exit(EXIT_SUCCESS);
 	}
 }
