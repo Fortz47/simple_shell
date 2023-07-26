@@ -75,10 +75,11 @@ void free_arr_str(char **arr, int i, int j)
  * return_num_of_arg - returns no. of args(strings) in
  * an array
  * @buffer: array
+ * @delim: delimiter
  *
  * Return: no of args(strings)
  */
-int return_num_of_arg(char *buffer)
+int return_num_of_arg(char *buffer, const char *delim)
 {
 	char *buf, *token;
 	int argc;
@@ -87,12 +88,12 @@ int return_num_of_arg(char *buffer)
 	buf = _strdup(buffer);
 	if (!buf)
 		return (argc);
-	token = strtok(buf, " ");
+	token = strtok(buf, delim);
 	if (token)
 		argc++;
 	while (token)
 	{
-		token = strtok(NULL, " ");
+		token = strtok(NULL, delim);
 		if (token)
 			argc++;
 	}

@@ -1,5 +1,7 @@
 #include "shell.h"
 
+char *shell;
+
 /**
  * main - entry point
  * @ac: argument count
@@ -8,15 +10,16 @@
  *
  * Return: 0, success
  */
-int main(int ac __attribute__((unused)), char **av, char **env)
+int main(int ac, char **av, char **env)
 {
-	parse *p;
 	char *buffer;
 	ssize_t read;
 	size_t len;
-	void (*f)(parse *, char ***);
-	char **env_cpy = copy_env(env, 0);
+	char **env_cpy;
 
+	shell = av[0];
+	if (ac >= 1)
+		env_cpy = copy_env(env, 0);
 	while (TRUE)
 	{
 		buffer = NULL;
@@ -26,20 +29,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		handle_EOF(&read, buffer, env_cpy);
 		if (!read)
 			continue;
-		p = parse_line(buffer);
-		if (p)
-		{
-			f = handle_built_in(p->cmd);
-			if (f != NULL)
-				f(p, &env_cpy);
-			else if (handle_path(p, env_cpy) != 0)
-			{
-				if (exec_cmd(p, env_cpy) != 0)
-					perror(av[0]);
-			}
-			free_arr_str_all(p->args, 0, 0);
-			then_free(2, NULL, p, buffer, p->cmd, NULL);
-		}
+		execute_all(buffer, &env_cpy);
 	}
 	return (0);
 }
