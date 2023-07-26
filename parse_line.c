@@ -11,7 +11,7 @@ parse *parse_line(char *line)
 	char *token;
 	int i, ac;
 
-	ac = return_num_of_arg(line);
+	ac = return_num_of_arg(line, " ");
 	token = strtok(line, " ");
 	if (!token || !line)
 	return (NULL);

@@ -5,14 +5,13 @@
  * @t: token
  * @p: pointer to struct parse
  * @av: pointer to struct parse
- * @flag: flag
- * @pt: path
+ * @F: flag
  * @s: status
+ * @e: environment
  */
-void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s)
+void then(char *fp, char *t, parse *p, parse *av, int *F, int *s, char **e)
 {
 	int index;
-	char **envp = environ;
 
 	while (t != NULL)
 	{
@@ -23,14 +22,15 @@ void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s)
 		av->args[0] = _strdup(fp);
 		if (check_valid(fp))
 		{
-			*flag = TRUE;
+			*F = TRUE;
 			for (index = 1; index < p->argc; index++)
 				av->args[index] = _strdup(p->args[index]);
 			av->args[index] = NULL;
-			*s = exec_cmd(av, envp);
+			*s = exec_cmd(av, e);
 			if (*s != 0)
 			{
-				_then_free(3, av, pt, fp, av->cmd, av->args);
+				free_arr_str(av->args, index, 0);
+				_then_free(2, av, fp, av->cmd, av->args);
 				return;
 			}
 			break;
@@ -40,10 +40,10 @@ void then(char *fp, char *t, parse *p, parse *av, int *flag, char *pt, int *s)
 		if (t != NULL)
 			fp = malloc(sizeof(char) * (_strlen(t) + _strlen(p->cmd) + 2));
 	}
-	if (flag && *s == 0)
+	if (*F && *s == 0)
 	{
 		_then_free(2, NULL, fp, av->cmd, NULL);
 		free_arr_str(av->args, index, 0);
 	}
-	_then_free(1, av, pt, av->args);
+	_then_free(0, av, av->args);
 }

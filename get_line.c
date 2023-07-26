@@ -81,22 +81,3 @@ ssize_t get_line(char **lineptr, size_t *n, FILE *stream)
 		typed = 0;
 	return (retVal);
 }
-/**
-  *main - test
-  *Return: void
-  */
-int main(void)
-{
-	char *lineptr = NULL;
-	size_t n = 0;
-	ssize_t bytesRead;
-
-	printf("Enter a line of text (Ctrl+D to stop):\n");
-	while ((bytesRead = get_line(&lineptr, &n, stdin)) != -1)
-	{
-		printf("Line read: %s\n", lineptr);
-		printf("Number of bytes read:     %ld\n", bytesRead);
-	}
-	free(lineptr);
-	return (0);
-}

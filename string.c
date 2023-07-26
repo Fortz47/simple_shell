@@ -1,10 +1,47 @@
 #include "shell.h"
 
 /**
+ * _strlen - returns the lenght of a string
+ * @s: parameter
+ * Return: lenght of string
+ */
+
+int _strlen(char *s)
+{
+	int i = 0;
+
+	if (!s)
+		return (i);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+/**
+ * _strcpy - copies the string pointed to by src, including the
+ * terminating null byte (\0), to the buffer pointed to by dest
+ * @dest: function parameter 1
+ * @src: function parameter 2
+ * Return: the pointer to dest
+ */
+
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+
+	if (!src)
+		return (NULL);
+	for (i = 0; src[i] != '\0'; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+	return (dest);
+}
+
+/**
  * _strcmp - compares two strings
  * @s1: string 1
  * @s2: string 2
- * Return: 0 if equal, else a -ve or +ve int
+ * Return: 1 if equal, else 0
  */
 
 int _strcmp(const char *s1, const char *s2)
@@ -85,24 +122,4 @@ char *_strcat(char *dest, char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-/**
-  * _strcpy - Copies a string from src to dest
-  * @dest: Pointer to the destination
-  * @src: Pointer to the source
-  * Return: Pointer to the destination
-  */
-char *_strcpy(char *dest, const char *src)
-{
-	char *dest_start = dest;
-
-	while (*src != '\0')
-	{
-		 *dest = *src;
-		 dest++;
-		 src++;
-	}
-	*dest = '\0';
-	return (dest_start);
 }
