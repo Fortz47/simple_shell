@@ -16,7 +16,6 @@ void handle_EOF(ssize_t *read, char *buffer, char **env_cpy)
 		{
 			free_arr_str_all(env_cpy, 0, 0);
 			free(buffer);
-			write(STDIN_FILENO, "\nlogout\n", 8);
 			exit(EXIT_SUCCESS);
 		}
 	}
@@ -40,7 +39,6 @@ void handle_EOF(ssize_t *read, char *buffer, char **env_cpy)
 		if (token)
 		{
 			status = _atoi(token);
-			write(STDIN_FILENO, "logout\n", 8);
 			exit(status);
 		}
 		exit(EXIT_SUCCESS);
