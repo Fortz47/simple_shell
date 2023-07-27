@@ -1,5 +1,7 @@
 #include "shell.h"
 
+void error_notFound(char *cmd, unsigned int *n);
+
 /**
  * split_string - splits a string
  * @str: string
@@ -38,7 +40,7 @@ char **split_string(char *str, const char *delim)
  * @buffer: buffer containing command
  * @env_cpy: environment
  */
-void execute(char *buffer, char ***env_cpy)
+void execute(char *buffer, char ***env_cpy, unsigned int *n)
 {
 	parse *ptr;
 	void (*f)(parse *, char ***);
@@ -49,10 +51,15 @@ void execute(char *buffer, char ***env_cpy)
 		f = handle_built_in(ptr->cmd);
 		if (f != NULL)
 			f(ptr, env_cpy);
-		else if (handle_path(ptr, *env_cpy) != 0)
+		else
 		{
-			if (exec_cmd(ptr, *env_cpy) != 0)
-				perror(shell);
+			if (handle_path(ptr, *env_cpy) != 0)
+			{
+				if (check_valid(ptr->cmd))
+					exec_cmd(ptr, *env_cpy);
+				else
+					error_notFound(ptr->cmd, n);
+			}
 		}
 		free_arr_str_all(ptr->args, 0, 0);
 		then_free(1, NULL, ptr, ptr->cmd, NULL);
@@ -64,7 +71,7 @@ void execute(char *buffer, char ***env_cpy)
  * @buffer: buffer containing command input
  * @env_cpy: environment
  */
-void execute_all(char *buffer, char ***env_cpy)
+void execute_all(char *buffer, char ***env_cpy, unsigned int *n)
 {
 	char **arr;
 	int count, i = 0, j = 0, num = 0;
@@ -78,7 +85,7 @@ void execute_all(char *buffer, char ***env_cpy)
 	count = return_num_of_arg(buffer, ";");
 	if (num == 0)
 	{
-		execute(buffer, env_cpy);
+		execute(buffer, env_cpy, n);
 		free(buffer);
 		return;
 	}
@@ -92,7 +99,7 @@ void execute_all(char *buffer, char ***env_cpy)
 		}
 		while (arr[j])
 		{
-			execute(arr[j], env_cpy);
+			execute(arr[j], env_cpy, n);
 			free(arr[j]);
 			j++;
 		}

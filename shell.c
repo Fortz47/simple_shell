@@ -17,6 +17,7 @@ int main(int ac, char **av, char **env)
 	size_t len;
 	char **env_cpy;
 	int interactive_mode = isatty(STDIN_FILENO);
+	unsigned int n = 1;
 
 	shell = av[0];
 	if (ac >= 1)
@@ -29,9 +30,9 @@ int main(int ac, char **av, char **env)
 			write(STDOUT_FILENO, "$ ", 2);
 		read = getline(&buffer, &len, stdin);
 		handle_EOF(&read, buffer, env_cpy);
-		if (!read)
-			continue;
-		execute_all(buffer, &env_cpy);
+		if (read)
+			execute_all(buffer, &env_cpy, &n);
+		n++;
 	}
 	return (0);
 }

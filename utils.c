@@ -46,13 +46,15 @@ int exec_cmd(parse *parsed, char **envp)
 	{
 		status = execve(parsed->cmd, parsed->args, envp);
 		if (status == -1)
-			exit(status);
+			exit(EXIT_FAILURE);
 	}
 	else
 	{
 		waitpid(pid, &wstatus, 0);
 		if (WIFEXITED(wstatus))
 			status = WEXITSTATUS(wstatus);
+		if (status != 0)
+			status = 2;
 	}
 	return (status);
 }

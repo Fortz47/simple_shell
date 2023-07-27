@@ -66,6 +66,6 @@ char **copy_env(char **env, int Add_byte);
 void _setenv(parse *ptr, char ***env_cpy);
 void free_arr_str_all(char **arr, int i, int j);
 void _unsetenv(parse *ptr, char ***env_cpy);
-void execute_all(char *buffer, char ***envp);
+void execute_all(char *buffer, char ***envp, unsigned int *n);
 
 #endif
