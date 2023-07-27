@@ -76,13 +76,13 @@ void execute_all(char *buffer, char ***env_cpy)
 		i++;
 	}
 	count = return_num_of_arg(buffer, ";");
-	if (num == 0 || count == 1)
+	if (num == 0)
 	{
 		execute(buffer, env_cpy);
 		free(buffer);
 		return;
 	}
-	else if (count > 1)
+	else if (count && num > 0)
 	{
 		arr = split_string(buffer, ";");
 		if (!arr)
