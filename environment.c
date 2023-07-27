@@ -114,7 +114,7 @@ void _setenv(parse *ptr, char ***env_cpy)
 	var = malloc(sizeof(char) * len);
 	if (!var)
 	{
-		perror("malloc");
+		perror(shell);
 		return;
 	}
 	_strcpy(var, ptr->args[1]);
@@ -135,7 +135,7 @@ void _setenv(parse *ptr, char ***env_cpy)
 	if (!New_env)
 	{
 		free(var);
-		perror("malloc");
+		perror(shell);
 		return;
 	}
 	New_env[i] = var;
@@ -166,7 +166,7 @@ void _unsetenv(parse *ptr, char ***env_cpy)
 			New_env = rm_env((*env_cpy), i);
 			if (!New_env)
 			{
-				perror("malloc");
+				perror(shell);
 				return;
 			}
 			free_arr_str_all((*env_cpy), 0, 0);
