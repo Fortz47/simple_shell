@@ -24,7 +24,7 @@ int main(int ac, char **av, char **env)
 	{
 		buffer = NULL;
 		len = 0;
-		write(STDOUT_FILENO, "($) ", 4);
+		write(STDOUT_FILENO, "$ ", 2);
 		read = getline(&buffer, &len, stdin);
 		handle_EOF(&read, buffer, env_cpy);
 		if (!read)
