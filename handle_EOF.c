@@ -7,6 +7,7 @@ void exit_(char *buffer, char **env_cpy, unsigned int *n, ssize_t *read);
  * @read: number of characters read(from stdin)
  * @buffer: pointer to read input(from stdin)
  * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
  */
 void handle_EOF(ssize_t *read, char *buffer, char **env_cpy, unsigned int *n)
 {

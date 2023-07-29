@@ -1,6 +1,8 @@
 #include "shell.h"
 
 /**
+ * puts_int - puts an integer
+ * @n: integer
  */
 void puts_int(unsigned int n)
 {
@@ -23,6 +25,9 @@ void puts_int(unsigned int n)
 
 
 /**
+ * error_notFound - handles not found error
+ * @cmd: command
+ * @n: number of times enter/return key has been pressed
  */
 void error_notFound(char *cmd, unsigned int *n)
 {
@@ -37,10 +42,16 @@ void error_notFound(char *cmd, unsigned int *n)
 }
 
 /**
+ * error_exit - handle exit error
+ * @status: exit status
+ * @n: number of times enter/return key has been pressed
+ *
+ * Return: TREUE or FALSE
  */
 int error_exit(int status, unsigned int *n)
 {
 	char *msg = ": Illegal number: -";
+
 	if (status < 0)
 	{
 		write(STDERR_FILENO, shell, _strlen(shell));
@@ -57,6 +68,11 @@ int error_exit(int status, unsigned int *n)
 }
 
 /**
+ * exit_ - handles exiting the shell
+ * @buffer: input from stdin
+ * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
+ * @read: number of characters read from stdin
  */
 void exit_(char *buffer, char **env_cpy, unsigned int *n, ssize_t *read)
 {

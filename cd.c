@@ -53,6 +53,9 @@ int reset_env(const char *old_var, char *new_var, char ***env_cpy)
 }
 
 /**
+ * error_cd - print error for failed cd command
+ * @ptr: parse struct pointer
+ * @n: number of times enter/return key has been pressed
  */
 void error_cd(parse *ptr, unsigned int *n)
 {
@@ -69,29 +72,17 @@ void error_cd(parse *ptr, unsigned int *n)
 }
 
 /**
+ * cd_extend - extends cd function
+ * @flag: flag
+ * @FLAG: FLAG
+ * @ptr: pointer to env string PWD
+ * @dir: store value of an env variable
  */
-void cd(parse *p, char ***env_cpy, unsigned int *n)
+void cd_extend(int flag, int FLAG, char *ptr, char *dir, char ***env_cpy)
 {
-	int flag = 1, FLAG = 1;
-	char *PWD, *OLDPWD, BUF[BUFFER_SIZE], *dir;
-	char *ptr = _getenv("PWD", (*env_cpy));
+	char *PWD, *OLDPWD, BUF[BUFFER_SIZE];
 
-	if (p->argc == 1)
-	{
-		dir = getenv_value("HOME", (*env_cpy));
-		flag = chdir((const char *)dir);
-	}
-	else if (_strcmp(p->args[1], "-"))
-	{
-		dir = getenv_value("OLDPWD", (*env_cpy));
-		flag = chdir((const char *)dir);
-	}
-	else
-		FLAG = chdir((const char *)p->args[1]);
-
-	if (flag == -1 || FLAG == -1)
-		error_cd(p, n);
-	else if (flag == 0 || FLAG == 0)
+	if (flag == 0 || FLAG == 0)
 	{
 		if (getcwd(BUF, sizeof(BUF)) == NULL)
 		{
@@ -134,4 +125,35 @@ void cd(parse *p, char ***env_cpy, unsigned int *n)
 	}
 	if (flag != 1 && FLAG == 1)
 		free(dir);
+}
+
+/**
+ * cd - handle cd command
+ * @p: parse struct pointer
+ * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
+ */
+void cd(parse *p, char ***env_cpy, unsigned int *n)
+{
+	int flag = 1, FLAG = 1;
+	char *dir;
+	char *ptr = _getenv("PWD", (*env_cpy));
+
+	if (p->argc == 1)
+	{
+		dir = getenv_value("HOME", (*env_cpy));
+		flag = chdir((const char *)dir);
+	}
+	else if (_strcmp(p->args[1], "-"))
+	{
+		dir = getenv_value("OLDPWD", (*env_cpy));
+		flag = chdir((const char *)dir);
+	}
+	else
+		FLAG = chdir((const char *)p->args[1]);
+
+	if (flag == -1 || FLAG == -1)
+		error_cd(p, n);
+	else if (flag == 0 || FLAG == 0)
+		cd_extend(flag, FLAG, ptr, dir, env_cpy);
 }

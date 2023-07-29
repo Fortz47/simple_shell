@@ -3,11 +3,10 @@
 /**
  * handle_built_in - checks for built-in cmd
  * @cmd: command
- *
- * Return: pointer to function
+ * n: number of times enter/return key has been pressed
+ * Return: function to handle
  */
-void (*handle_built_in(char *cmd))(parse * ptr, char ***env_cpy,
-		unsigned int *n)
+void (*handle_built_in(char *cmd))(parse *, char ***, unsigned int *)
 {
 	int i;
 

@@ -72,7 +72,7 @@ char **copy_env(char **env, int Add_byte)
 }
 
 /**
- * _getenv - gets an environment variable
+ * getenv_value - gets the value of an environment variable
  * @var: environment variable
  * @env_cpy: environment
  *
@@ -90,7 +90,7 @@ char *getenv_value(const char *var, char **env_cpy)
 			while (env_cpy[i][j] != '=')
 				j++;
 			for (k = j + 1; env_cpy[i][k] != '\0'; k++)
-				{;}
+				{ ; }
 			k -= j + 1;
 			token = malloc(sizeof(char) * (k + 1));
 			if (!token)
@@ -116,13 +116,12 @@ char *getenv_value(const char *var, char **env_cpy)
  * _setenv - sets an environmental variable
  * @ptr: pointer to struct parse
  * @env_cpy: environment
- *
- * Return: void pointer
+ * @n: number of times enter/return key has been pressed
  */
 void _setenv(parse *ptr, char ***env_cpy,
 		unsigned int *n __attribute__((unused)))
 {
-	int i = 0, len;
+	int i = 0, len = _strlen(ptr->args[1]) + _strlen(ptr->args[2]) + 2;
 	char *var;
 	char **New_env;
 
@@ -131,7 +130,6 @@ void _setenv(parse *ptr, char ***env_cpy,
 		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", 29);
 		return;
 	}
-	len = _strlen(ptr->args[1]) + _strlen(ptr->args[2]) + 2;
 	var = malloc(sizeof(char) * len);
 	if (!var)
 	{
@@ -169,6 +167,7 @@ void _setenv(parse *ptr, char ***env_cpy,
  * _unsetenv - removes an environment variable
  * @ptr: pointer to struct parse
  * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
  */
 void _unsetenv(parse *ptr, char ***env_cpy,
 		unsigned int *n __attribute__((unused)))

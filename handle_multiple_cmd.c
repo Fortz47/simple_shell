@@ -39,6 +39,7 @@ char **split_string(char *str, const char *delim)
  * execute - executes a shell command
  * @buffer: buffer containing command
  * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
  */
 void execute(char *buffer, char ***env_cpy, unsigned int *n)
 {
@@ -70,6 +71,7 @@ void execute(char *buffer, char ***env_cpy, unsigned int *n)
  * execute_all - executes command input
  * @buffer: buffer containing command input
  * @env_cpy: environment
+ * @n: number of times enter/return key has been pressed
  */
 void execute_all(char *buffer, char ***env_cpy, unsigned int *n)
 {
