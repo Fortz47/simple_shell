@@ -62,9 +62,10 @@ void error_notFound(char *cmd, unsigned int *n, parse *p,
  *
  * Return: TREUE or FALSE
  */
-int error_exit(int status, unsigned int *n, char *buf, char ***env)
+int error_exit(int status, unsigned int *n, char *buf, char ***env, char *token)
 {
 	char *msg = ": Illegal number: -";
+	char *msg2 = ": Illegal number: ";
 
 	if (status < 0)
 	{
@@ -73,10 +74,17 @@ int error_exit(int status, unsigned int *n, char *buf, char ***env)
 		puts_int(*n);
 		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, "exit", 4);
-		write(STDERR_FILENO, msg, _strlen(msg));
-		puts_int(status * -1);
+		if (token)
+		{
+			write(STDERR_FILENO, msg2, _strlen(msg2));
+			write(STDERR_FILENO, token, _strlen(token));
+		}
+		else
+		{
+			write(STDERR_FILENO, msg, _strlen(msg));
+			puts_int(status * -1);
+		}
 		write(STDERR_FILENO, "\n", 1);
-		return (TRUE);
 
 		if (!isatty(STDIN_FILENO))
 		{
@@ -84,6 +92,7 @@ int error_exit(int status, unsigned int *n, char *buf, char ***env)
 			then_free(1, NULL, NULL, buf, NULL);
 			exit(2);
 		}
+		return (TRUE);
 	}
 	return (FALSE);
 }
@@ -109,7 +118,9 @@ void exit_(char *buffer, char **env_cpy, unsigned int *n, ssize_t *read)
 		if (token)
 		{
 			status = _atoi(token);
-			if (error_exit(status, n, buffer, &env_cpy))
+			if (!(status == -1100110011))
+				token = NULL;
+			if (error_exit(status, n, buffer, &env_cpy, token))
 			{
 				free(buffer);
 				*read = 0;

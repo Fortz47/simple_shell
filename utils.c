@@ -21,7 +21,7 @@ int _atoi(char *str)
 		if (str[i] >= '0' && str[i] <= '9')
 			num = num * 10 + (str[i] - '0');
 		else
-			break;
+			return (-1100110011);
 		i++;
 	}
 	return (num * sign);
