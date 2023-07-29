@@ -56,8 +56,9 @@ int reset_env(const char *old_var, char *new_var, char ***env_cpy)
  * error_cd - print error for failed cd command
  * @ptr: parse struct pointer
  * @n: number of times enter/return key has been pressed
+ * @env: environment
  */
-void error_cd(parse *ptr, unsigned int *n)
+void error_cd(parse *ptr, unsigned int *n, char ***env)
 {
 	char *msg = ": can't cd to ";
 
@@ -69,6 +70,14 @@ void error_cd(parse *ptr, unsigned int *n)
 	write(STDERR_FILENO, msg, _strlen(msg));
 	write(STDERR_FILENO, ptr->args[1], _strlen(ptr->args[1]));
 	write(STDERR_FILENO, "\n", 1);
+
+	if (!isatty(STDIN_FILENO))
+	{
+		free_arr_str_all(ptr->args, 0, 0);
+		free_arr_str_all((*env), 0, 0);
+		then_free(1, NULL, ptr, ptr->cmd, NULL);
+		exit(2);
+	}
 }
 
 /**
@@ -77,6 +86,7 @@ void error_cd(parse *ptr, unsigned int *n)
  * @FLAG: FLAG
  * @ptr: pointer to env string PWD
  * @dir: store value of an env variable
+ * @env_cpy: environment
  */
 void cd_extend(int flag, int FLAG, char *ptr, char *dir, char ***env_cpy)
 {
@@ -153,7 +163,7 @@ void cd(parse *p, char ***env_cpy, unsigned int *n)
 		FLAG = chdir((const char *)p->args[1]);
 
 	if (flag == -1 || FLAG == -1)
-		error_cd(p, n);
+		error_cd(p, n, env_cpy);
 	else if (flag == 0 || FLAG == 0)
 		cd_extend(flag, FLAG, ptr, dir, env_cpy);
 }

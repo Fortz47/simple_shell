@@ -48,7 +48,7 @@ char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 parse *parse_line(char *line);
 void handle_EOF(ssize_t *read, char *buffer, char **env_cpy, unsigned int *n);
-int handle_path(parse *parsed, char **env_cpy);
+int handle_path(parse *parsed, char **env_cpy, int *flag);
 void free_arr_str(char **arr, int i, int j);
 int exec_cmd(parse *parsed, char **);
 int check_valid(char *filepath);
@@ -67,5 +67,6 @@ void free_arr_str_all(char **arr, int i, int j);
 void _unsetenv(parse *ptr, char ***env_cpy, unsigned int *n);
 void execute_all(char *buffer, char ***envp, unsigned int *n);
 void cd(parse *ptr, char ***env, unsigned int *);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif

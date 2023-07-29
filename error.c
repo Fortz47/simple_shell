@@ -28,8 +28,12 @@ void puts_int(unsigned int n)
  * error_notFound - handles not found error
  * @cmd: command
  * @n: number of times enter/return key has been pressed
+ * @p: parse struct pointer
+ * @buf: buffer of input from stdin
+ * @env: environment
  */
-void error_notFound(char *cmd, unsigned int *n)
+void error_notFound(char *cmd, unsigned int *n, parse *p,
+		char *buf, char ***env)
 {
 	char *msg = ": not found\n";
 
@@ -39,16 +43,26 @@ void error_notFound(char *cmd, unsigned int *n)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, cmd, _strlen(cmd));
 	write(STDERR_FILENO, msg, _strlen(msg));
+
+	if (!isatty(STDIN_FILENO))
+	{
+		free_arr_str_all(p->args, 0, 0);
+		free_arr_str_all((*env), 0, 0);
+		then_free(2, NULL, p, buf, p->cmd, NULL);
+		exit(127);
+	}
 }
 
 /**
  * error_exit - handle exit error
  * @status: exit status
  * @n: number of times enter/return key has been pressed
+ * @buf: buffer of input from stdin
+ * @env: environment
  *
  * Return: TREUE or FALSE
  */
-int error_exit(int status, unsigned int *n)
+int error_exit(int status, unsigned int *n, char *buf, char ***env)
 {
 	char *msg = ": Illegal number: -";
 
@@ -63,6 +77,13 @@ int error_exit(int status, unsigned int *n)
 		puts_int(status * -1);
 		write(STDERR_FILENO, "\n", 1);
 		return (TRUE);
+
+		if (!isatty(STDIN_FILENO))
+		{
+			free_arr_str_all((*env), 0, 0);
+			then_free(1, NULL, NULL, buf, NULL);
+			exit(2);
+		}
 	}
 	return (FALSE);
 }
@@ -88,7 +109,7 @@ void exit_(char *buffer, char **env_cpy, unsigned int *n, ssize_t *read)
 		if (token)
 		{
 			status = _atoi(token);
-			if (error_exit(status, n))
+			if (error_exit(status, n, buffer, &env_cpy))
 			{
 				free(buffer);
 				*read = 0;
