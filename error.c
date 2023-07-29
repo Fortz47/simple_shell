@@ -62,7 +62,7 @@ void error_notFound(char *cmd, unsigned int *n, parse *p,
  *
  * Return: TREUE or FALSE
  */
-int error_exit(int status, unsigned int *n, char *buf, char ***env, char *token)
+int error_exit(int status, unsigned int *n, char *buf, char ***env, char *tok)
 {
 	char *msg = ": Illegal number: -";
 	char *msg2 = ": Illegal number: ";
@@ -77,7 +77,7 @@ int error_exit(int status, unsigned int *n, char *buf, char ***env, char *token)
 		if (token)
 		{
 			write(STDERR_FILENO, msg2, _strlen(msg2));
-			write(STDERR_FILENO, token, _strlen(token));
+			write(STDERR_FILENO, token, _strlen(tok));
 		}
 		else
 		{
