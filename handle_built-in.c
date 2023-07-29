@@ -6,13 +6,15 @@
  *
  * Return: pointer to function
  */
-void (*handle_built_in(char *cmd))(parse * ptr, char ***env_cpy)
+void (*handle_built_in(char *cmd))(parse * ptr, char ***env_cpy,
+		unsigned int *n)
 {
 	int i;
 
 	built_in f[] = {
 			{"setenv", _setenv},
 			{"unsetenv", _unsetenv},
+			{"cd", cd},
 			{NULL, NULL}
 	};
 

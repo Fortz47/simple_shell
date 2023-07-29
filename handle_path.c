@@ -14,7 +14,7 @@ int handle_path(parse *parsed, char **env_cpy)
 	parse *argv;
 
 	status = 1;
-	path = _strdup(_getenv("PATH", env_cpy));
+	path = getenv_value("PATH", env_cpy);
 	if (!path)
 		return (status);
 	argv = malloc(sizeof(parse));

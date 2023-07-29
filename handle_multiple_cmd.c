@@ -43,14 +43,14 @@ char **split_string(char *str, const char *delim)
 void execute(char *buffer, char ***env_cpy, unsigned int *n)
 {
 	parse *ptr;
-	void (*f)(parse *, char ***);
+	void (*f)(parse *, char ***, unsigned int *);
 
 	ptr = parse_line(buffer);
 	if (ptr)
 	{
 		f = handle_built_in(ptr->cmd);
 		if (f != NULL)
-			f(ptr, env_cpy);
+			f(ptr, env_cpy, n);
 		else
 		{
 			if (handle_path(ptr, *env_cpy) != 0)

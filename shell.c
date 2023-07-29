@@ -29,7 +29,7 @@ int main(int ac, char **av, char **env)
 		if (interactive_mode)
 			write(STDOUT_FILENO, "$ ", 2);
 		read = getline(&buffer, &len, stdin);
-		handle_EOF(&read, buffer, env_cpy);
+		handle_EOF(&read, buffer, env_cpy, &n);
 		if (read)
 			execute_all(buffer, &env_cpy, &n);
 		n++;

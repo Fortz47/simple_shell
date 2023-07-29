@@ -44,8 +44,7 @@ int exec_cmd(parse *parsed, char **envp)
 		return (-1);
 	if (pid == 0)
 	{
-		status = execve(parsed->cmd, parsed->args, envp);
-		if (status == -1)
+		if (execve(parsed->cmd, parsed->args, envp) == -1)
 			exit(EXIT_FAILURE);
 	}
 	else

@@ -78,15 +78,35 @@ char **copy_env(char **env, int Add_byte)
  *
  * Return: environment variable or NULL if doesn't exist
  */
-char *_getenv(const char *var, char **env_cpy)
+char *getenv_value(const char *var, char **env_cpy)
 {
-	int i = 0;
-	char **env = env_cpy;
+	int i = 0, j = 0, k, x;
+	char *token;
 
-	while (env[i] != NULL)
+	while (env_cpy[i] != NULL)
 	{
-		if (find_var(var, env[i]))
-			return (env[i]);
+		if (find_var(var, env_cpy[i]))
+		{
+			while (env_cpy[i][j] != '=')
+				j++;
+			for (k = j + 1; env_cpy[i][k] != '\0'; k++)
+				{;}
+			k -= j + 1;
+			token = malloc(sizeof(char) * (k + 1));
+			if (!token)
+				return (NULL);
+			x = 0;
+			j++;
+			while (k)
+			{
+				token[x] = env_cpy[i][j];
+				x++;
+				j++;
+				k--;
+			}
+			token[x] = '\0';
+			return (token);
+		}
 		i++;
 	}
 	return (NULL);
@@ -99,7 +119,8 @@ char *_getenv(const char *var, char **env_cpy)
  *
  * Return: void pointer
  */
-void _setenv(parse *ptr, char ***env_cpy)
+void _setenv(parse *ptr, char ***env_cpy,
+		unsigned int *n __attribute__((unused)))
 {
 	int i = 0, len;
 	char *var;
@@ -149,7 +170,8 @@ void _setenv(parse *ptr, char ***env_cpy)
  * @ptr: pointer to struct parse
  * @env_cpy: environment
  */
-void _unsetenv(parse *ptr, char ***env_cpy)
+void _unsetenv(parse *ptr, char ***env_cpy,
+		unsigned int *n __attribute__((unused)))
 {
 	int i = 0;
 	char **New_env;
