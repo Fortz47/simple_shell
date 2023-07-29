@@ -74,10 +74,10 @@ int error_exit(int status, unsigned int *n, char *buf, char ***env, char *tok)
 		puts_int(*n);
 		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, "exit", 4);
-		if (token)
+		if (tok)
 		{
 			write(STDERR_FILENO, msg2, _strlen(msg2));
-			write(STDERR_FILENO, token, _strlen(tok));
+			write(STDERR_FILENO, tok, _strlen(tok));
 		}
 		else
 		{
