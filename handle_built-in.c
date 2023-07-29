@@ -3,7 +3,6 @@
 /**
  * handle_built_in - checks for built-in cmd
  * @cmd: command
- * n: number of times enter/return key has been pressed
  * Return: function to handle
  */
 void (*handle_built_in(char *cmd))(parse *, char ***, unsigned int *)

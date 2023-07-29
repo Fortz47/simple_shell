@@ -58,8 +58,7 @@ void _then_free(int count, parse *ptr, ...);
 int _atoi(char *str);
 void then(char *fp, char *t, parse *p, parse *av, int *flag, int *s, char **);
 char *getenv_value(const char *var, char **env_cpy);
-void (*handle_built_in(char *cmd))(parse *ptr, char ***env_cpy,
-		unsigned int *n);
+void (*handle_built_in(char *cmd))(parse *, char ***, unsigned int *);
 parse *create_struct_parse(int cmd_count, int args_count);
 char **copy_env(char **env, int Add_byte);
 void _setenv(parse *ptr, char ***env_cpy, unsigned int *n);
