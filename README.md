@@ -5,12 +5,12 @@ UNIX command line interpreter. Shell
 The program has the exact same output as sh (/bin/sh) as well as the exact same error output.
 The only difference is when an error is printed, the name of the program is equivalent to the argv[0] (See below)
 
-Example of error with sh:
+Example of error with sh:( <br> )
 
-$ echo "qwerty" | /bin/sh
-/bin/sh: 1: qwerty: not found
-$ echo "qwerty" | /bin/../bin/sh
-/bin/../bin/sh: 1: qwerty: not found
+$ echo "qwerty" | /bin/sh( <br> )
+/bin/sh: 1: qwerty: not found( <br> )
+$ echo "qwerty" | /bin/../bin/sh( <br> )
+/bin/../bin/sh: 1: qwerty: not found( <br> )
 $
 Same error with The program hsh (program name after compilation):
 
