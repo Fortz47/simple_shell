@@ -1,7 +1,7 @@
 # simple_shell
 UNIX command line interpreter. Shell
 
-**Output**
+****Output****
 The program has the exact same output as sh (/bin/sh) as well as the exact same error output.
 The only difference is when an error is printed, the name of the program is equivalent to the argv[0] (See below)
 
