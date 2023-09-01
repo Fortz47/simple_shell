@@ -1,7 +1,7 @@
 # simple_shell
 UNIX command line interpreter. Shell
 
-****Output****
+****Output****<br>
 The program has the exact same output as sh (/bin/sh) as well as the exact same error output.
 The only difference is when an error is printed, the name of the program is equivalent to the argv[0] (See below)
 
@@ -59,7 +59,7 @@ The shell was compiled this way:<br>
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh<br>
 
 **Testing**<br>
-Your shell should work like this in **interactive mode**:<br>
+The shell should work like this in **interactive mode**:<br>
 
 $ ./hsh<br>
 ($) /bin/ls<br>
@@ -67,6 +67,7 @@ hsh main.c shell.c<br>
 ($)<br>
 ($) exit<br>
 $<br>
+
 But also in **non-interactive mode**:<br>
 
 $ echo "/bin/ls" | ./hsh<br>
