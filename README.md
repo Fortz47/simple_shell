@@ -40,7 +40,7 @@ $
 ### Compilation
 The shell was compiled this way
 ```sh
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh<br>
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
 ### Testing
 The shell should work like this in interactive mode
