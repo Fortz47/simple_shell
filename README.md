@@ -28,7 +28,7 @@ $ echo "qwerty" | /bin/../bin/sh
 $
 ```
 
-#### Same error with The program hsh (program name after compilation):
+#### Same error with The program `hsh` (program name after compilation):
 ```sh
 $ echo "qwerty" | ./hsh
 ./hsh: 1: qwerty: not found
@@ -60,23 +60,23 @@ $
 > read (man 2 read)<br>
 > readdir (man 3 readdir)<br>
 > signal (man 2 signal)<br>
-> stat (\_\_xstat) (man 2 stat)
-> lstat (\_\_lxstat) (man 2 lstat)
-> fstat (__fxstat) (man 2 fstat)
-> strtok (man 3 strtok)
-> wait (man 2 wait)
+> stat (\_\_xstat) (man 2 stat)<br>
+> lstat (\_\_lxstat) (man 2 lstat)<br>
+> fstat (__fxstat) (man 2 fstat)<br>
+> strtok (man 3 strtok)<br>
+> wait (man 2 wait)<br>
 > waitpid (man 2 waitpid)<br>
-> wait3 (man 2 wait3)
-> wait4 (man 2 wait4)
-> write (man 2 write)
+> wait3 (man 2 wait3)<br>
+> wait4 (man 2 wait4)<br>
+> write (man 2 write)<br>
 
 ### Compilation
 The shell was compiled this way
 ```sh
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh<br>
 ```
-## Testing
-The shell should work like this in **interactive mode
+### Testing
+The shell should work like this in interactive mode
 ```sh
 $ ./hsh
 ($) /bin/ls
@@ -85,7 +85,7 @@ hsh main.c shell.c
 ($) exit
 $
 ```
-## But also in **non-interactive mode:
+#### But also in non-interactive mode:
 ```sh
 $ echo "/bin/ls" | ./hsh
 hsh main.c shell.c test_ls_2
