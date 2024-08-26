@@ -37,6 +37,36 @@ $ echo "qwerty" | ./././hsh
 $
 ```
 
+### Compilation
+The shell was compiled this way
+```sh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh<br>
+```
+### Testing
+The shell should work like this in interactive mode
+```sh
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+```
+#### But also in non-interactive mode:
+```sh
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
+```
+
 ### List of functions and system calls this project was limited to
 > access (man 2 access)<br>
 > chdir (man 2 chdir)<br>
@@ -69,33 +99,3 @@ $
 > wait3 (man 2 wait3)<br>
 > wait4 (man 2 wait4)<br>
 > write (man 2 write)<br>
-
-### Compilation
-The shell was compiled this way
-```sh
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh<br>
-```
-### Testing
-The shell should work like this in interactive mode
-```sh
-$ ./hsh
-($) /bin/ls
-hsh main.c shell.c
-($)
-($) exit
-$
-```
-#### But also in non-interactive mode:
-```sh
-$ echo "/bin/ls" | ./hsh
-hsh main.c shell.c test_ls_2
-$
-$ cat test_ls_2
-/bin/ls
-/bin/ls
-$
-$ cat test_ls_2 | ./hsh
-hsh main.c shell.c test_ls_2
-hsh main.c shell.c test_ls_2
-$
-```
